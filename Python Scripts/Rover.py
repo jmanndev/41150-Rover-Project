@@ -2,8 +2,102 @@ import logging
 import sys
 import time
 
-from Adafruit_BNO055 import BNO055
+import os
+os.system ("sudo pigpiod")
+time.sleep(1)
+import pigpio
 
+
+RIGHT_MOTOR = 18
+LEFT_MOTOR = 17
+
+class Motor:
+    
+    pi = ""
+    idle_throttle = 1500
+    off_throttle = 0
+    clockwise_throttle = 1900
+    anticlock_throttle = 1100
+    
+    def __init__(self):
+        time.sleep(1)
+        self.pi = pigpio.pi()
+
+        
+    def off(self, timer):
+        print('OFF')
+        self.log('both', 'off', self.off_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.off_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.off_throttle)
+        time.sleep(timer)
+        self.pi.stop()
+        return
+
+
+    def idle(self, timer):
+        self.log('both', 'idle', self.idle_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.idle_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.idle_throttle)
+        time.sleep(timer)
+        return
+
+
+    def right(self, timer):
+        print("RIGHT")
+        self.idle(2)
+        self.log('both', 'right', self.clockwise_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.clockwise_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.clockwise_throttle)
+        time.sleep(timer)
+        return
+
+
+    def left(self, timer):
+        print("LEFT")
+        self.idle(2)
+        self.log('both', 'left', self.anticlock_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.anticlock_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.anticlock_throttle)
+        time.sleep(timer)
+        return
+
+
+    def forward(self, timer):
+        print("FORWARD")
+        self.idle(2)
+        self.log('right', 'forward', self.clockwise_throttle)
+        self.log('left', 'forward', self.anticlock_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.anticlock_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.clockwise_throttle)
+        time.sleep(timer)
+        return
+
+
+    def backward(self, timer):
+        print("BACKWARD")
+        self.idle(2)
+        self.log('right', 'backward', self.anticlock_throttle)
+        self.log('left', 'backward', self.clockwise_throttle)
+        self.adjust_motor(LEFT_MOTOR, self.clockwise_throttle)
+        self.adjust_motor(RIGHT_MOTOR, self.anticlock_throttle)
+        time.sleep(timer)
+        return
+
+
+    def adjust_motor(self, motor, rpm):
+        self.pi.set_servo_pulsewidth(motor, rpm)
+        return
+
+
+    def log(self, motor, direction, rpm):
+        print(str(motor) + " " + str(direction) + " with " + str(rpm))
+        return
+
+
+
+
+
+from Adafruit_BNO055 import BNO055
 class Sensor:
     bno = ""
     heading = ""
@@ -32,10 +126,10 @@ class Sensor:
             print('See datasheet section 4.3.59 for the meaning')
         print('Reading BNO055 data...')
     
-    def readPhil(self):
-        readOrientation();
-        readCalibrationStatus();
-        readTemperature();
+    def readAll(self):
+        self.readOrientation();
+        self.readCalibration();
+        self.readTemperature();
         # Other values you can optionally read:
         # Orientation as a quaternion:
         #x,y,z,w = bno.read_quaterion()
@@ -98,7 +192,7 @@ class Sensor:
     
     
     
-    def displayPhilData(self):
+    def displayData(self):
         print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
             self.heading, self.roll, self.pitch, self.sys, self.gyro, self.accel, self.mag))
         return
