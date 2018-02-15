@@ -6,8 +6,8 @@ import Rover
 RIGHT_MOTOR = 18
 LEFT_MOTOR = 17
 
-right = Rover.Motor(RIGHT_MOTOR)#test
-left = Rover.Motor(LEFT_MOTOR)
+right = Rover.Motor('right', RIGHT_MOTOR)#test
+left = Rover.Motor('left', LEFT_MOTOR)
 phil = Rover.Sensor()
 
 while True:

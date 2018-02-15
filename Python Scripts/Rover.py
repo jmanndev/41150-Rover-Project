@@ -22,14 +22,14 @@ class Motor:
     clockwise_throttle = 1900
     anticlock_throttle = 1100
     
-    def __init__(self, gpio):
+    def __init__(self, motorName, gpio):
+        self.name = motorName
         self.gpioPin = gpio
         self.pi = pigpio.pi()
         self.idle()
 
         
     def off(self, timer):
-        print('OFF')
         self.log('off', self.off_throttle)
         self.adjust_motor(self.off_throttle)
         self.pi.stop()
@@ -43,28 +43,24 @@ class Motor:
 
 
     def right(self):
-        print("RIGHT")
         self.log('right', self.clockwise_throttle)
         self.adjust_motor(self.clockwise_throttle)
         return
 
 
     def left(self):
-        print("LEFT")
         self.log('left', self.anticlock_throttle)
         self.adjust_motor(self.anticlock_throttle)
         return
 
 
     def forward(self):
-        print("FORWARD")
         self.log('forward', self.clockwise_throttle)
         self.adjust_motor(self.clockwise_throttle)
         return
 
 
     def backward(self):
-        print("BACKWARD")
         self.log('backward', self.anticlock_throttle)
         self.adjust_motor(self.anticlock_throttle)
         return
@@ -76,7 +72,7 @@ class Motor:
 
 
     def log(self, direction, rpm):
-        print(str(direction) + " with " + str(rpm))
+        print('{0} pointing {1} ({2})'.format(self.name, direction, rpm))
         return
 
 
