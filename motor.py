@@ -13,25 +13,27 @@ anticlock_throttle = 1100
 
 class Motor:
     
+    pi = ""
+    
     def __init__(self):
         time.sleep(1)
-        pi = pigpio.pi()
+        self.pi = pigpio.pi()
 
         
     def off(self, timer):
         print('OFF')
         self.log('both', 'off', off_throttle)
-        adjust_motor(LEFT_MOTOR, off_throttle)
-        adjust_motor(RIGHT_MOTOR, off_throttle)
+        self.adjust_motor(LEFT_MOTOR, off_throttle)
+        self.adjust_motor(RIGHT_MOTOR, off_throttle)
         time.sleep(timer)
-        pi.stop()
+        self.pi.stop()
         return
 
 
     def idle(self, timer):
         self.log('both', 'idle', idle_throttle)
-        adjust_motor(LEFT_MOTOR, idle_throttle)
-        adjust_motor(RIGHT_MOTOR, idle_throttle)
+        self.adjust_motor(LEFT_MOTOR, idle_throttle)
+        self.adjust_motor(RIGHT_MOTOR, idle_throttle)
         time.sleep(timer)
         return
 
@@ -40,8 +42,8 @@ class Motor:
         print("RIGHT")
         self.idle(2)
         self.log('both', 'right', clockwise_throttle)
-        adjust_motor(LEFT_MOTOR, clockwise_throttle)
-        adjust_motor(RIGHT_MOTOR, clockwise_throttle)
+        self.adjust_motor(LEFT_MOTOR, clockwise_throttle)
+        self.adjust_motor(RIGHT_MOTOR, clockwise_throttle)
         time.sleep(timer)
         return
 
@@ -50,8 +52,8 @@ class Motor:
         print("LEFT")
         self.idle(2)
         self.log('both', 'left', anticlock_throttle)
-        adjust_motor(LEFT_MOTOR, anticlock_throttle)
-        adjust_motor(RIGHT_MOTOR, anticlock_throttle)
+        self.adjust_motor(LEFT_MOTOR, anticlock_throttle)
+        self.adjust_motor(RIGHT_MOTOR, anticlock_throttle)
         time.sleep(timer)
         return
 
@@ -61,8 +63,8 @@ class Motor:
         self.idle(2)
         self.log('right', 'forward', clockwise_throttle)
         self.log('left', 'forward', anticlock_throttle)
-        adjust_motor(LEFT_MOTOR, anticlock_throttle)
-        adjust_motor(RIGHT_MOTOR, clockwise_throttle)
+        self.adjust_motor(LEFT_MOTOR, anticlock_throttle)
+        self.adjust_motor(RIGHT_MOTOR, clockwise_throttle)
         time.sleep(timer)
         return
 
@@ -72,14 +74,14 @@ class Motor:
         self.idle(2)
         self.log('right', 'backward', anticlock_throttle)
         self.log('left', 'backward', clockwise_throttle)
-        adjust_motor(LEFT_MOTOR, clockwise_throttle)
-        adjust_motor(RIGHT_MOTOR, anticlock_throttle)
+        self.adjust_motor(LEFT_MOTOR, clockwise_throttle)
+        self.adjust_motor(RIGHT_MOTOR, anticlock_throttle)
         time.sleep(timer)
         return
 
 
     def adjust_motor(self, motor, rpm):
-        pi.set_servo_pulsewidth(motor, rpm)
+        self.pi.set_servo_pulsewidth(motor, rpm)
         return
 
 
