@@ -1,7 +1,6 @@
 import logging
 import sys
 import time
-
 import os
 os.system ("sudo pigpiod")
 time.sleep(1)
@@ -11,6 +10,13 @@ import pigpio
 RIGHT_MOTOR = 18
 LEFT_MOTOR = 17
 
+#  __  __       _             
+# |  \/  |     | |            
+# | \  / | ___ | |_ ___  _ __ 
+# | |\/| |/ _ \| __/ _ \| '__|
+# | |  | | (_) | || (_) | |   
+# |_|  |_|\___/ \__\___/|_|   
+                             
 class Motor:
     
     pi = ""
@@ -95,7 +101,12 @@ class Motor:
 
 
 
-
+#   _____                           
+#  / ____|                          
+# | (___   ___ _ __  ___  ___  _ __ 
+#  \___ \ / _ \ '_ \/ __|/ _ \| '__|
+#  ____) |  __/ | | \__ \ (_) | |   
+# |_____/ \___|_| |_|___/\___/|_|
 
 from Adafruit_BNO055 import BNO055
 class Sensor:
@@ -193,6 +204,9 @@ class Sensor:
     
     
     def displayData(self):
-        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
-            self.heading, self.roll, self.pitch, self.sys, self.gyro, self.accel, self.mag))
+        print(time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime()))
+        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}'.format(self.heading, self.roll, self.pitch))
+        print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
+        print('Temp_c={0}'.format(self.temp_c))
+        print('\t~~~~\t~~~~\t~~~~\t')
         return
