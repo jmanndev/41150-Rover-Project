@@ -1,14 +1,8 @@
 import logging
 import sys
 import time
-import os
-os.system ("sudo pigpiod")
-time.sleep(1)
-import pigpio
 
 
-RIGHT_MOTOR = 18
-LEFT_MOTOR = 17
 
 #  __  __       _             
 # |  \/  |     | |            
@@ -17,87 +11,74 @@ LEFT_MOTOR = 17
 # | |  | | (_) | || (_) | |   
 # |_|  |_|\___/ \__\___/|_|   
                              
-class Motor:
+import os
+os.system ("sudo pigpiod")
+time.sleep(2)
+import pigpio    
     
-    pi = ""
+class Motor:
     idle_throttle = 1500
     off_throttle = 0
     clockwise_throttle = 1900
     anticlock_throttle = 1100
     
-    def __init__(self):
-        time.sleep(1)
+    def __init__(self, gpio):
+        self.gpioPin = gpio
         self.pi = pigpio.pi()
+        self.idle()
 
         
     def off(self, timer):
         print('OFF')
-        self.log('both', 'off', self.off_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.off_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.off_throttle)
-        time.sleep(timer)
+        self.log('off', self.off_throttle)
+        self.adjust_motor(self.off_throttle)
         self.pi.stop()
         return
 
 
-    def idle(self, timer):
-        self.log('both', 'idle', self.idle_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.idle_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.idle_throttle)
-        time.sleep(timer)
+    def idle(self):
+        self.log('idle', self.idle_throttle)
+        self.adjust_motor(self.idle_throttle)
         return
 
 
-    def right(self, timer):
+    def right(self):
         print("RIGHT")
-        self.idle(2)
-        self.log('both', 'right', self.clockwise_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.clockwise_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.clockwise_throttle)
-        time.sleep(timer)
+        self.log('right', self.clockwise_throttle)
+        self.adjust_motor(self.clockwise_throttle)
         return
 
 
-    def left(self, timer):
+    def left(self):
         print("LEFT")
-        self.idle(2)
-        self.log('both', 'left', self.anticlock_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.anticlock_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.anticlock_throttle)
-        time.sleep(timer)
+        self.log('left', self.anticlock_throttle)
+        self.adjust_motor(self.anticlock_throttle)
         return
 
 
-    def forward(self, timer):
+    def forward(self):
         print("FORWARD")
-        self.idle(2)
-        self.log('right', 'forward', self.clockwise_throttle)
-        self.log('left', 'forward', self.anticlock_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.anticlock_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.clockwise_throttle)
-        time.sleep(timer)
+        self.log('forward', self.clockwise_throttle)
+        self.adjust_motor(self.clockwise_throttle)
         return
 
 
-    def backward(self, timer):
+    def backward(self):
         print("BACKWARD")
-        self.idle(2)
-        self.log('right', 'backward', self.anticlock_throttle)
-        self.log('left', 'backward', self.clockwise_throttle)
-        self.adjust_motor(LEFT_MOTOR, self.clockwise_throttle)
-        self.adjust_motor(RIGHT_MOTOR, self.anticlock_throttle)
-        time.sleep(timer)
+        self.log('backward', self.anticlock_throttle)
+        self.adjust_motor(self.anticlock_throttle)
         return
 
 
-    def adjust_motor(self, motor, rpm):
-        self.pi.set_servo_pulsewidth(motor, rpm)
+    def adjust_motor(self, rpm):
+        self.pi.set_servo_pulsewidth(self.gpioPin, rpm)
         return
 
 
-    def log(self, motor, direction, rpm):
-        print(str(motor) + " " + str(direction) + " with " + str(rpm))
+    def log(self, direction, rpm):
+        print(str(direction) + " with " + str(rpm))
         return
+
 
 
 
@@ -109,20 +90,20 @@ class Motor:
 # |_____/ \___|_| |_|___/\___/|_|
 
 from Adafruit_BNO055 import BNO055
+
 class Sensor:
-    bno = ""
-    heading = ""
-    roll = ""
-    pitch = ""
-    sys = ""
-    gyro = ""
-    accel = ""
-    mag = ""
-    temp_c = ""
-
     def __init__(self):
+        self.bno = None
+        self.heading = None
+        self.roll = None
+        self.pitch = None
+        self.sys = None
+        self.gyro = None
+        self.accel = None
+        self.mag = None
+        self.temp_c = None
         self.bno = BNO055.BNO055(serial_port='/dev/ttyUSB0', rst=18) # apparently rst value is not needed
-
+        
         if not self.bno.begin():
             raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
             # Print system status and self test result.
@@ -136,6 +117,8 @@ class Sensor:
             print('System error: {0}'.format(error))
             print('See datasheet section 4.3.59 for the meaning')
         print('Reading BNO055 data...')
+        print('')
+    
     
     def readAll(self):
         self.readOrientation();
@@ -158,49 +141,59 @@ class Sensor:
         #x,y,z = bno.read_gravity()
         return
     
+    
     def readOrientation(self):
         # Read the Euler angles for heading, roll, pitch (all in degrees).
         self.heading, self.roll, self.pitch = self.bno.read_euler()
         return
+    
     
     def readCalibration(self):
         # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
         self.sys, self.gyro, self.accel, self.mag = self.bno.get_calibration_status()
         return
     
+    
     def readTemperature(self):
         # Sensor temperature in degrees Celsius:
         self.temp_c = self.bno.read_temp()
         return
     
+    
     def updateGetHeading(self):
         self.readOrientation()
         return self.getHeading()
+    
     
     def updateGetRoll(self):
         self.readOrientation()
         return self.getRoll()
     
+    
     def updateGetPitch(self):
         self.readOrientation()
         return self.getPitch()
+    
     
     def updateGetTemperature(self):
         self.readTemperature()
         return self.getTemperature()
     
+    
     def getHeading(self):
         return self.heading
+    
     
     def getRoll(self):
         return self.roll
     
+    
     def getPitch(self):
         return self.pitch
     
+    
     def getTemperature(self):
         return self.temp_c
-    
     
     
     def displayData(self):
@@ -208,5 +201,6 @@ class Sensor:
         print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}'.format(self.heading, self.roll, self.pitch))
         print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
         print('Temp_c={0}'.format(self.temp_c))
-        print('\t~~~~\t~~~~\t~~~~\t')
         return
+    
+    
