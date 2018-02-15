@@ -1,9 +1,8 @@
 # 41150-Rover-Project
 
 
-		
-		
-		
+
+For Reference:
 
 
 | Device        | Identifier           | Code Name  |
