@@ -2,18 +2,28 @@ import time
 import Rover
 
 
-
 RIGHT_MOTOR = 18
 LEFT_MOTOR = 17
 
-right = Rover.Motor('right', RIGHT_MOTOR)#test
-left = Rover.Motor('left', LEFT_MOTOR)
+engine = Rover.Engine(RIGHT_MOTOR, LEFT_MOTOR)
 phil = Rover.Sensor()
+time.sleep(1)
+engine.idle()
 
-while True:
-    phil.readAll()
-    phil.displayData()
-    right.idle()
-    left.forward()
-    time.sleep(2)
-    print('\t~~~~\t~~~~\t~~~~\t') #makes output pretty :)
+
+def setDirection():
+    #change code here to determine direction
+    engine.forward()
+        
+
+def run():
+    print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
+    while True:
+        phil.readAll()
+        setDirection()
+        phil.displayData()
+        time.sleep(1)
+        print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
+        
+        
+run()

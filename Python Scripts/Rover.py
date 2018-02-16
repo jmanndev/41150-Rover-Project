@@ -1,3 +1,5 @@
+# Tags generated with -     http://patorjk.com/software/taag/#p=display&f=Big
+
 import logging
 import sys
 import time
@@ -29,7 +31,7 @@ class Motor:
         self.idle()
 
         
-    def off(self, timer):
+    def off(self):
         self.log('off', self.off_throttle)
         self.adjust_motor(self.off_throttle)
         self.pi.stop()
@@ -42,40 +44,89 @@ class Motor:
         return
 
 
-    def right(self):
-        self.log('right', self.clockwise_throttle)
+    def clockwise(self):
+        self.log('CW', self.clockwise_throttle)
         self.adjust_motor(self.clockwise_throttle)
         return
 
 
-    def left(self):
-        self.log('left', self.anticlock_throttle)
+    def anticlock(self):
+        self.log('ACW', self.anticlock_throttle)
         self.adjust_motor(self.anticlock_throttle)
         return
 
-
-    def forward(self):
-        self.log('forward', self.clockwise_throttle)
-        self.adjust_motor(self.clockwise_throttle)
-        return
-
-
-    def backward(self):
-        self.log('backward', self.anticlock_throttle)
-        self.adjust_motor(self.anticlock_throttle)
-        return
-
-
+    
     def adjust_motor(self, rpm):
         self.pi.set_servo_pulsewidth(self.gpioPin, rpm)
         return
 
 
     def log(self, direction, rpm):
-        print('{0} pointing {1} ({2})'.format(self.name, direction, rpm))
+        print('{0} spinning {1} ({2})'.format(self.name, direction, rpm))
         return
 
 
+    
+
+#  ______             _            
+# |  ____|           (_)           
+# | |__   _ __   __ _ _ _ __   ___ 
+# |  __| | '_ \ / _` | | '_ \ / _ \
+# | |____| | | | (_| | | | | |  __/
+# |______|_| |_|\__, |_|_| |_|\___|
+#                __/ |             
+#               |___/              
+    
+class Engine:
+    # Assumes spinning motor in clockwise direction pushes ROVER forward
+    
+    def __init__(self, rightGPIO, leftGPIO):
+        self.rightMotor = Motor('Right', rightGPIO)
+        self.leftMotor = Motor('Left', leftGPIO)
+    
+    
+    def off(self):
+        print('\tOFF')
+        self.rightMotor.off()
+        self.leftMotor.off()
+        return
+    
+    
+    def idle(self):
+        print('\tIDLE')
+        self.rightMotor.idle()
+        self.leftMotor.idle()
+        return
+        
+        
+    def forward(self):
+        print('\tFORWARD')
+        self.rightMotor.clockwise()
+        self.leftMotor.clockwise()
+        return
+        
+    
+    def backward(self):
+        print('\tBACKWARD')
+        self.rightMotor.anticlock()
+        self.leftMotor.anticlock()
+        return
+        
+        
+    def right(self):
+        print('\tRIGHT')
+        self.rightMotor.anticlock()
+        self.leftMotor.clockwise()
+        return
+    
+    
+    def left(self):
+        print('\tLEFT')
+        self.rightMotor.clockwise()
+        self.leftMotor.anticlock()
+        return
+    
+    
 
 
 #   _____                           
@@ -117,28 +168,33 @@ class Sensor:
     
     
     def readAll(self):
-        self.readOrientation();
-        self.readCalibration();
-        self.readTemperature();
-        # Other values you can optionally read:
+        self.readOrientationEuler();
         # Orientation as a quaternion:
         #x,y,z,w = bno.read_quaterion()
+        
+        self.readCalibration();
+        self.readTemperature();
+        
         # Magnetometer data (in micro-Teslas):
         #x,y,z = bno.read_magnetometer()
+        
         # Gyroscope data (in degrees per second):
         #x,y,z = bno.read_gyroscope()
+        
         # Accelerometer data (in meters per second squared):
         #x,y,z = bno.read_accelerometer()
+        
         # Linear acceleration data (i.e. acceleration from movement, not gravity--
         # returned in meters per second squared):
         #x,y,z = bno.read_linear_acceleration()
+        
         # Gravity acceleration data (i.e. acceleration just from gravity--returned
         # in meters per second squared):
         #x,y,z = bno.read_gravity()
         return
     
     
-    def readOrientation(self):
+    def readOrientationEuler(self):
         # Read the Euler angles for heading, roll, pitch (all in degrees).
         self.heading, self.roll, self.pitch = self.bno.read_euler()
         return
@@ -195,8 +251,10 @@ class Sensor:
     def displayData(self):
         print(time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime()))
         print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}'.format(self.heading, self.roll, self.pitch))
-        print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
         print('Temp_c={0}'.format(self.temp_c))
         return
     
     
+    def displayCalibration(self):
+        print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
+        return
