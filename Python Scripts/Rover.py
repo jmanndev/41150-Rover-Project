@@ -165,6 +165,7 @@ class Sensor:
             print('See datasheet section 4.3.59 for the meaning')
         print('Reading BNO055 data...')
         print('')
+        self.readAll()
     
     
     def readAll(self):

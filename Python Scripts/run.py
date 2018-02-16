@@ -55,7 +55,6 @@ def setDirection():
 
 def run():
     print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
-    phil.readAll()
 #    while True:
 #        phil.readAll()
 #        setDirection()
