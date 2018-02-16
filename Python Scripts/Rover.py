@@ -248,10 +248,14 @@ class Sensor:
         return self.temp_c
     
     
+    def getDataAsString(self):
+        data = time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime())
+        data += ('\nHeading={0:0.2f} Roll={1:0.2f} Pitch={2:0.2f}').format(self.heading, self.roll, self.pitch)
+        data += '\nTemp_c={0}'.format(self.temp_c)
+        return data
+    
     def displayData(self):
-        print(time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime()))
-        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}'.format(self.heading, self.roll, self.pitch))
-        print('Temp_c={0}'.format(self.temp_c))
+        print(self.getData())
         return
     
     
