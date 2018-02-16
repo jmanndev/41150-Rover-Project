@@ -1,0 +1,118 @@
+/*!
+ * Start Bootstrap - Portfolio Item (https://startbootstrap.com/template-overviews/portfolio-item)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-portfolio-item/blob/master/LICENSE)
+ */
+
+body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+.col-md-8 {
+    border: solid blue;
+    width: auto;
+    height: 480px;
+}
+
+
+.snap-box {
+    
+    width: 760px;
+    height: auto;
+    margin-top: 10px;
+}
+
+.my-3 {
+        text-align: center;
+
+    
+    
+}
+
+.control-box {
+    border-collapse: collapse;
+    background: #A9A9A9;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 10px auto 0px auto ;
+    width: 100px;
+    
+    }
+    
+.stop-box {
+    background: red;
+    color: azure;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.snap-btn {
+    background: green;
+    color: white;
+    padding: 10px;
+    width : 100%;
+}
+
+.stats-table {
+    margin-top: 25px
+    
+    
+}
+
+table {
+    width:100%;
+}
+table, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table th {
+    background-color: black;
+    color: white;
+}
+
+.login-page{
+    align-content: center;
+    width: 50%
+    
+}
+
+
+.login-box {
+    background: darkgray;
+    margin-left: 0%;
+    margin-bottom: 50px;
+    
+}
+
+
+.login-input {
+    padding: 10px; 
+    width: 100%;
+    
+}
+
+.frgt {
+    padding: 10px; 
+    width: 100%;
+    color: darkgreen;
+}
