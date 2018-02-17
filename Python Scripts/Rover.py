@@ -2,8 +2,12 @@
 
 import logging
 import sys
-import time
+import time                             
+import os
 
+os.system ("sudo pigpiod")
+time.sleep(2) #Need sleep to allow PiGPIO to load properly before import
+import pigpio    
 
 
 #  __  __       _             
@@ -12,11 +16,7 @@ import time
 # | |\/| |/ _ \| __/ _ \| '__|
 # | |  | | (_) | || (_) | |   
 # |_|  |_|\___/ \__\___/|_|   
-                             
-import os
-os.system ("sudo pigpiod")
-time.sleep(2)
-import pigpio    
+
     
 class Motor:
     idle_throttle = 1500
@@ -25,6 +25,7 @@ class Motor:
     anticlock_throttle = 1100
     
     def __init__(self, motorName, gpio):
+        state = None
         self.name = motorName
         self.gpioPin = gpio
         self.pi = pigpio.pi()
@@ -57,8 +58,12 @@ class Motor:
 
     
     def adjust_motor(self, rpm):
+        self.state = rpm
         self.pi.set_servo_pulsewidth(self.gpioPin, rpm)
         return
+    
+    def getState(self):
+        return self.state
 
 
     def log(self, direction, rpm):
@@ -81,8 +86,8 @@ class Engine:
     # Assumes spinning motor in clockwise direction pushes ROVER forward
     
     def __init__(self, rightGPIO, leftGPIO):
-        self.rightMotor = Motor('Right', rightGPIO)
-        self.leftMotor = Motor('Left', leftGPIO)
+        self.rightMotor = Motor('right', rightGPIO)
+        self.leftMotor = Motor('left', leftGPIO)
     
     
     def off(self):
@@ -127,6 +132,14 @@ class Engine:
         return
     
     
+    def getDataAsDict(self):
+        d = {
+            "right" : self.rightMotor.getState(),
+            "left" : self.leftMotor.getState()
+        }
+        return d
+    
+    
 
 
 #   _____                           
@@ -140,15 +153,16 @@ from Adafruit_BNO055 import BNO055
 
 class Sensor:
     def __init__(self):
-        self.bno = None
-        self.heading = None
-        self.roll = None
-        self.pitch = None
         self.sys = None
         self.gyro = None
         self.accel = None
         self.mag = None
+        
+        self.heading = None
+        self.roll = None
+        self.pitch = None
         self.temp_c = None
+        
         self.bno = BNO055.BNO055(serial_port='/dev/ttyUSB0', rst=18) # apparently rst value is not needed
         
         if not self.bno.begin():
@@ -169,7 +183,7 @@ class Sensor:
     
     
     def readAll(self):
-        self.readOrientationEuler();
+        self.readOrientation();
         # Orientation as a quaternion:
         #x,y,z,w = bno.read_quaterion()
         
@@ -195,7 +209,7 @@ class Sensor:
         return
     
     
-    def readOrientationEuler(self):
+    def readOrientation(self):
         # Read the Euler angles for heading, roll, pitch (all in degrees).
         self.heading, self.roll, self.pitch = self.bno.read_euler()
         return
@@ -233,20 +247,14 @@ class Sensor:
         return self.getTemperature()
     
     
-    def getHeading(self):
-        return self.heading
+    def displayData(self):
+        print(self.getDataAsString())
+        return
     
     
-    def getRoll(self):
-        return self.roll
-    
-    
-    def getPitch(self):
-        return self.pitch
-    
-    
-    def getTemperature(self):
-        return self.temp_c
+    def displayCalibration(self):
+        print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
+        return
     
     
     def getDataAsString(self):
@@ -255,11 +263,12 @@ class Sensor:
         data += '\nTemp_c={0}'.format(self.temp_c)
         return data
     
-    def displayData(self):
-        print(self.getData())
-        return
     
-    
-    def displayCalibration(self):
-        print('Sys_cal={0} Gyro_cal={1} Accel_cal={2} Mag_cal={3}'.format(self.sys, self.gyro, self.accel, self.mag))
-        return
+    def getDataAsDict(self):
+        d = {
+            "heading" : self.heading,
+            "roll" : self.roll,
+            "pitch" : self.pitch,
+            "tempC" : self.temp_c
+        }
+        return d

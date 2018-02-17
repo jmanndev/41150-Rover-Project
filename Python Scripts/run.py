@@ -14,16 +14,16 @@ engine = Rover.Engine(RIGHT_MOTOR_GPIO, LEFT_MOTOR_GPIO)
 phil = Rover.Sensor()
 time.sleep(1)
 engine.idle()
+dataDict = {}
+
 
 #   CLIENT STUFF
 def setupServerConnection(ip):
-
     # Connect the socket to the port on the server given by the caller
     server_address = (ip, 31415)
     print >>sys.stderr, 'connecting to %s port %s' % server_address
     serverSocket.connect(server_address)
     return
-
 
 
 def sendToServer(message):
@@ -45,12 +45,23 @@ def sendToServer(message):
         serverSocket.close()
         return
     
+
+def updateDataDict():
+    # currrently appears not to update original dataDict.....
+    phil.readAll()
+    d = phil.getDataAsDict().copy()
+    d.update(engine.getDataAsDict())
+    dataDict = d.copy()
+    return
+    
     
 
 #   ENGINE STUFF
 def setDirection():
     #change code here to determine direction
     engine.forward()
+    return
+    
         
 
 def run():
@@ -62,7 +73,17 @@ def run():
 #        time.sleep(1)
 #        print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
     setupServerConnection(SERVER_IP)
-    sendToServer(phil.getDataAsString())
+    
+    # this all doesnt work... cant figure out how to make DataDict a string that will send..........
+    sendToServer("test")
+    updateDataDict()
+    sendToServer(str(dataDict))
+    setDirection()
+    updateDataDict()
+    sendToServer(str(dataDict))
+    sendToServer("endtest")
+    
         
+
         
 run()
