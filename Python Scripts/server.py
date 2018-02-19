@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import socket
 import sys
+import json
 
 #   RUNS ON AP
 
@@ -11,35 +14,35 @@ server_name = sys.argv[1]
 server_address = (server_name, 31415)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
-        
+
 # Listen for incoming connections
-sock.listen(1)
+sock.listen(5)
 
-while True:
-    # Wait for a connection
-    print >>sys.stderr, 'waiting for a connection'
-    connection, client_address = sock.accept()
+
     
-    try:
-        print >>sys.stderr, 'connection from', client_address
-
-        # Receive the data in small chunks and retransmit it
+def saveData():
+    print('saving data')
+    
+    
+try:
+    while True:
+        # Wait for a connection
+        print >>sys.stderr, 'waiting for a connection'
+        connection, client_address = sock.accept()
+        newData = ''
+        
         while True:
+            data = connection.recv(50)
             
-            #
-            #   data var should contain controls for ROVER running client
-            #   currently just echos
-            #
-            
-            data = connection.recv(16)
-            print >>sys.stderr, 'received "%s"' % data
             if data:
-                print >>sys.stderr, 'sending data back to the client'
-                connection.sendall(data)
+                newData += data
+                if data.endswith('☢'):
+                    newData = newData.strip('☢')
+                    print("received data:" + newData)
+                    newData = ''
             else:
-                print >>sys.stderr, 'no more data from', client_address
                 break
-            
-    finally:
-        # Clean up the connection
-        connection.close()
+finally:
+    connection.close
+
+    
