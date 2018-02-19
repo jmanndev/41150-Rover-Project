@@ -14,25 +14,22 @@ body {
   }
 }
 
-.col-md-8 {
+cameraBox .col-md-8 {
     border: solid blue;
-    width: auto;
-    height: 480px;
+    width: 350px;
+    height: auto;
+    align-content: center;
 }
 
-
 .snap-box {
-    
-    width: 760px;
+    align-content: center;
+    width: auto;
     height: auto;
     margin-top: 10px;
 }
 
 .my-3 {
         text-align: center;
-
-    
-    
 }
 
 .control-box {
@@ -55,7 +52,7 @@ body {
     margin-top: 10px;
 }
 
-.snap-btn {
+#snap-btn {
     background: green;
     color: white;
     padding: 10px;
