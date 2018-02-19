@@ -39,22 +39,19 @@ def setDirection():
 def run():
     serverSocket.connect(server_address)
     print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
-#    while True:
-#        phil.readAll()
-#        setDirection()
-#        phil.Displ
-#        print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
     while True:
         phil.readAll()
+        
         d = {
             "time" : time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime())
         }
         d.update(phil.getDataAsDict().copy())
         d.update(engine.getDataAsDict())
         dataDict = d.copy()
-        
         sendToServer(json.dumps(dataDict) + '☢')
+        
         time.sleep(1)
+        print('  ~~~~\t~~~~\t~~~~\t') #makes output pretty :)
     serverSocket.close()
 
 
