@@ -14,13 +14,14 @@ body {
   }
 }
 
-cameraBox .col-md-8 {
-    border: solid blue;
-    width: 350px;
-    height: auto;
+#container {
     align-content: center;
+    margin-left: 25%;   
 }
-
+#cameraBox {
+    width: 330px;
+    height: 260px;
+}
 .snap-box {
     align-content: center;
     width: auto;

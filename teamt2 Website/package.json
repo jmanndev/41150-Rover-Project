@@ -26,6 +26,7 @@
         "url": "https://github.com/BlackrockDigital/startbootstrap-portfolio-item.git"
     },
     "dependencies": {
+        "blob-util": "^1.3.0",
         "bootstrap": "4.0.0",
         "jquery": "3.3.1"
     },
