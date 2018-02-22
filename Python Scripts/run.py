@@ -8,7 +8,7 @@ import json
 
 RIGHT_MOTOR_GPIO = 18
 LEFT_MOTOR_GPIO = 17
-SERVER_IP = '172.19.15.143'
+SERVER_IP = '172.19.17.150'
 
 # Create a TCP/IP socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
