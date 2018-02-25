@@ -6,11 +6,12 @@ import json
 import sqlite3
 
 #   RUNS ON AP
-    
+DATABASE_ENABLED = False    
 
 # Connecetion to DB
-sqlconnection = sqlite3.connect("rover.db")
-cursor = sqlconnection.cursor()
+if DATABASE_ENABLED:
+    sqlconnection = sqlite3.connect("rover.db")
+    cursor = sqlconnection.cursor()
     
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,13 +51,15 @@ try:
                 if data.endswith('☢'):
                     newData = newData.strip('☢')
                     print("received data:" + newData)
-                    saveDataToSQL(newData, cursor)
+                    if DATABASE_ENABLED:
+                        saveDataToSQL(newData, cursor)
                     newData = ''
             else:
                 break
 
 finally:
     connection.close()
-    sqlconnection.commit()
-    cursor.close()
-    sqlconnection.close()
+    if DATABASE_ENABLED:
+        sqlconnection.commit()
+        cursor.close()
+        sqlconnection.close()
