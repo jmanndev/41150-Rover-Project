@@ -1,9 +1,147 @@
-{% if data_list %}
-    <ul>
-    {% for data in data_list %}
-        <li><a href="/roverapp/{{ data.id }}/">{{ data.sendTime }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Team T2</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        
+        <link rel="stylesheet" href="{% static 'css/portfolio-item.css' %}">
+        
+
+    </head>
+
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">Team T2 | Underwater Rover </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">How to Drive</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sign up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+
+            <!-- Portfolio Item Heading -->
+            <h1 class="my-4">Water Quality Monitoring
+                <small></small>
+            </h1>
+
+            <!-- Portfolio Item Row -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="container">
+                        <iframe id="cameraBox" src="http://172.19.15.224:8081" frameborder="2"></iframe>
+                        <!-- <div class="snap-box">
+<a href="#" id="snap-btn" class="btn btn-success">Take a Snapshot!</a>
+</div> -->
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h3 class="my-3">CONTROLS</h3>
+
+
+                    <div>
+                        <center>
+                            <button type="button" class="control-box">Forward</button>
+
+                            <br/>
+                            <button type="button" class="control-box">Left</button>
+                            <button type="button" class="control-box">Up</button>
+                            <button type="button" class="control-box">Right</button>
+                            <br/>
+
+                            <button type="button" class="stop-box">○ STOP ○</button>
+
+
+                        </center>
+                    </div>
+
+                    <div class="stats-table"></div>
+                    <table>
+                        <tr>
+                            <th>Time</th>
+                            <th>Heading</th>
+                            <th>Temp C</th>
+                        </tr>
+                        {% if data_list %}
+                        {% for data in data_list %}     
+                        <tr>
+                            <th>{{ data.sendTime }}</th>
+                            <th>{{ data.heading }}</th>
+                            <th>{{ data.tempC }}</th>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </table>
+
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <!-- Related Projects Row -->
+            <h3 class="my-4">Recent Moving Object </h3>
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <canvas id="canvas" width="640" height="480">
+                        </div>
+
+
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+
+            <!-- Footer -->
+            <footer class="py-5 bg-dark">
+                <div class="container">
+                    <p class="m-0 text-center text-white">Copyright &copy; Team T2 2018</p>
+                </div>
+                <!-- /.container -->
+            </footer>
+
+            <script src="{% static 'js/app.js' %}"></script>
+
+            </body>
+
+        </html>
