@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#   RUNS ON AP
+#   RUNS ON ROVER
 import socket
 import sys
 import Rover
