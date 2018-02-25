@@ -6,9 +6,6 @@ import socket
 import sys
 import time
 
-
-
-
 # Create a TCP/IP socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_name = sys.argv[1]
