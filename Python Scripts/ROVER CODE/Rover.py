@@ -25,7 +25,6 @@ class Motor:
     anticlock_throttle = 1100
     
     def __init__(self, motorName, gpio):
-        state = None
         self.name = motorName
         self.gpioPin = gpio
         self.pi = pigpio.pi()
@@ -58,12 +57,11 @@ class Motor:
 
     
     def adjust_motor(self, rpm):
-        self.state = rpm
         self.pi.set_servo_pulsewidth(self.gpioPin, rpm)
         return
     
     def getState(self):
-        return self.state
+        return self.pi.get_servo_pulsewidth(self.gpioPin)
 
 
     def log(self, direction, rpm):

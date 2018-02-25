@@ -16,8 +16,6 @@ server_address = (server_name, 31415)
 
 engine = Rover.Engine(RIGHT_MOTOR_GPIO, LEFT_MOTOR_GPIO)
 phil = Rover.Sensor()
-time.sleep(1)
-engine.idle()
 
 
 def sendToServer(message):
@@ -27,13 +25,6 @@ def sendToServer(message):
         serverSocket.sendall(message)
     finally:
         return
-    
-
-#   ENGINE STUFF
-def setDirection():
-    #change code here to determine direction
-    engine.forward()
-    return
     
     
 def run():
