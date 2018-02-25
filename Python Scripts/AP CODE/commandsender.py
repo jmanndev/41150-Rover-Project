@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# RUNS ON AP
+
 import socket
 import sys
 import time
