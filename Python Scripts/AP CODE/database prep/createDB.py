@@ -2,7 +2,7 @@ import sqlite3
 
 ############### Settings ####################
 #DB Name
-DB_NAME = "rover.db"
+DB_NAME = "rover.sqlite3"
 
 #SQL File with Table Schema and Initialization Data
 SQL_File_Name = "Table_Schema.sql"

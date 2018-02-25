@@ -1,0 +1,9 @@
+{% if data_list %}
+    <ul>
+    {% for data in data_list %}
+        <li><a href="/roverapp/{{ data.id }}/">{{ data.sendTime }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
