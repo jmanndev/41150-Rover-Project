@@ -6,7 +6,7 @@ import sys
 import json
 import sqlite3
 
-DATABASE_ENABLED = False    
+DATABASE_ENABLED = True    
 
     
 # Create a TCP/IP socket
@@ -18,7 +18,7 @@ sock.bind(server_address)
 
 # Connecetion to DB
 if DATABASE_ENABLED:
-    sqlconnection = sqlite3.connect("rover.db")
+    sqlconnection = sqlite3.connect("rover.sqlite3")
     cursor = sqlconnection.cursor()
 
 
@@ -28,7 +28,7 @@ def saveDataToSQL(message, curs):
     data = json.loads(message)
     print("save: " + message)
     
-    format_str = """INSERT INTO DataReceived (sendTime, heading, roll, pitch, tempC, leftState, rightState) VALUES ("{sendTime}", "{heading}", "{roll}", "{pitch}", "{tempC}", "{leftState}", "{rightState}");"""
+    format_str = """INSERT INTO roverapp_datareceived (sendTime, heading, roll, pitch, tempC, leftState, rightState) VALUES ("{sendTime}", "{heading}", "{roll}", "{pitch}", "{tempC}", "{leftState}", "{rightState}");"""
     sql_command = format_str.format(sendTime=data["time"], heading=data["heading"], roll=data["roll"], pitch=data["pitch"], tempC=data["tempC"], leftState=data["left"], rightState=data["right"])
     
     curs.execute(sql_command)
