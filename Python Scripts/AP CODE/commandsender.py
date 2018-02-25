@@ -4,6 +4,9 @@ import socket
 import sys
 import time
 
+
+
+
 # Create a TCP/IP socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_name = sys.argv[1]
@@ -20,6 +23,12 @@ def sendToServer(message):
 
 def doCommands():
     ### listen for commands from xbox here
+    sendToServer('FORWARD')
+    time.sleep(3)
+    sendToServer('BACKWARD')
+    time.sleep(3)
+    sendToServer('LEFT')
+    time.sleep(3)
     
     
 def run():
@@ -29,3 +38,4 @@ def run():
 
 
 run()
+

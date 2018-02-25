@@ -38,7 +38,7 @@ try:
                 elif data == 'OFF':
                     engine.off()
                 else:
-                    print('Unknown')
+                    print('Unknown Command')
                 data = ''
             else:
                 break
