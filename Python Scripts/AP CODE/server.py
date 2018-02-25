@@ -6,6 +6,22 @@ import json
 import sqlite3
 
 #   RUNS ON AP
+    
+
+# Connecetion to DB
+sqlconnection = sqlite3.connect("rover.db")
+cursor = sqlconnection.cursor()
+    
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_name = sys.argv[1]
+server_address = (server_name, 31415)
+print >>sys.stderr, 'starting up on %s port %s' % server_address
+sock.bind(server_address)
+
+
+
+
 def saveDataToSQL(message, curs):
     print("save: " + message)
     data = json.loads(message)
@@ -16,20 +32,6 @@ def saveDataToSQL(message, curs):
     # do not delete this line
     sqlconnection.commit()
 
-    
-
-# Connecetion to DB
-sqlconnection = sqlite3.connect("rover.db")
-cursor = sqlconnection.cursor()
-    
-# Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Bind the socket to the address given on the command line
-server_name = sys.argv[1]
-server_address = (server_name, 31415)
-print >>sys.stderr, 'starting up on %s port %s' % server_address
-sock.bind(server_address)
 
 # Listen for incoming connections
 sock.listen(5)   

@@ -8,11 +8,11 @@ import json
 
 RIGHT_MOTOR_GPIO = 18
 LEFT_MOTOR_GPIO = 17
-SERVER_IP = '172.19.17.150'
 
 # Create a TCP/IP socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_address = (SERVER_IP, 31415)
+server_name = sys.argv[1]
+server_address = (server_name, 31415)
 
 engine = Rover.Engine(RIGHT_MOTOR_GPIO, LEFT_MOTOR_GPIO)
 phil = Rover.Sensor()
@@ -43,8 +43,9 @@ def run():
         phil.readAll()
         
         d = {
-            "time" : time.strftime("%H:%M:%S - %Y-%m-%d", time.gmtime())
+            "time" : time.strftime("%Y-%m-%d - %H:%M:%S", time.gmtime())
         }
+        
         d.update(phil.getDataAsDict().copy())
         d.update(engine.getDataAsDict())
         dataDict = d.copy()
