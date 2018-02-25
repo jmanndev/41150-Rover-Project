@@ -6,15 +6,12 @@ import socket
 import sys
 import json
 
-RIGHT_MOTOR_GPIO = 18
-LEFT_MOTOR_GPIO = 17
-
 # Create a TCP/IP socket
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_name = sys.argv[1]
 server_address = (server_name, 31415)
 
-engine = Rover.Engine(RIGHT_MOTOR_GPIO, LEFT_MOTOR_GPIO)
+engine = Rover.Engine()
 phil = Rover.Sensor()
 
 

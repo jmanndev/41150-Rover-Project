@@ -10,6 +10,11 @@ time.sleep(2) #Need sleep to allow PiGPIO to load properly before import
 import pigpio    
 
 
+
+RIGHT_MOTOR_GPIO = 18
+LEFT_MOTOR_GPIO = 17
+
+
 #  __  __       _             
 # |  \/  |     | |            
 # | \  / | ___ | |_ ___  _ __ 
@@ -83,9 +88,9 @@ class Motor:
 class Engine:
     # Assumes spinning motor in clockwise direction pushes ROVER forward
     
-    def __init__(self, rightGPIO, leftGPIO):
-        self.rightMotor = Motor('right', rightGPIO)
-        self.leftMotor = Motor('left', leftGPIO)
+    def __init__(self):
+        self.rightMotor = Motor('right', RIGHT_MOTOR_GPIO)
+        self.leftMotor = Motor('left', LEFT_MOTOR_GPIO)
     
     
     def off(self):
