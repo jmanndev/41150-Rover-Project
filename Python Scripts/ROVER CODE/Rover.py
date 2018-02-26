@@ -14,6 +14,7 @@ import pigpio
 
 RIGHT_MOTOR_GPIO = 18
 LEFT_MOTOR_GPIO = 17
+PROPELLOR_MOTOR_GPIO = 19
 
 
 SONIC_GPIO_TRIGGER = 23
@@ -96,12 +97,14 @@ class Engine:
     def __init__(self):
         self.rightMotor = Motor('right', RIGHT_MOTOR_GPIO)
         self.leftMotor = Motor('left', LEFT_MOTOR_GPIO)
+        self.propellorMotor = Motor('propellor', PROPELLOR_MOTOR_GPIO)
     
     
     def off(self):
         print('\tOFF')
         self.rightMotor.off()
         self.leftMotor.off()
+        self.propellorMotor.off()
         return
     
     
@@ -109,6 +112,7 @@ class Engine:
         print('\tIDLE')
         self.rightMotor.idle()
         self.leftMotor.idle()
+        self.propellorMotor.idle()
         return
         
         
@@ -140,10 +144,21 @@ class Engine:
         return
     
     
+    def up(self):
+        print('\tUP')
+        self.propellorMotor.clockwise()
+        return
+    
+    
+    def down(self):
+        print('\tDOWN')
+        self.propellorMotor.anticlock()
+    
     def getDataAsDict(self):
         d = {
             "right" : self.rightMotor.getState(),
-            "left" : self.leftMotor.getState()
+            "left" : self.leftMotor.getState(),
+            "propellor" : self.propellorMotor.getState()
         }
         return d
     

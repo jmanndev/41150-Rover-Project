@@ -37,6 +37,10 @@ try:
                     engine.idle()
                 elif data == 'OFF':
                     engine.off()
+                elif data == 'UP':
+                    engine.up()
+                elif data == 'DOWN':
+                    engine.down()
                 else:
                     print('Unknown Command')
                 data = ''

@@ -13,4 +13,5 @@ class DataReceived(models.Model):
   tempC = models.CharField(max_length=200)
   leftState = models.CharField(max_length=200)
   rightState = models.CharField(max_length=200)
+  propellorState = models.CharField(max_length=200)
   distance = models.CharField(max_length=200)
