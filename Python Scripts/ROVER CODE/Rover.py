@@ -5,15 +5,12 @@ import sys
 import time                             
 import os
 import RPi.GPIO as SONIC_GPIO
-
-os.system ("sudo pigpiod")
-time.sleep(2) #Need sleep to allow PiGPIO to load properly before import
 import pigpio    
 
 
 
-RIGHT_MOTOR_GPIO = 18
-LEFT_MOTOR_GPIO = 17
+RIGHT_MOTOR_GPIO = 12
+LEFT_MOTOR_GPIO = 16
 PROPELLOR_MOTOR_GPIO = 19
 
 
@@ -118,20 +115,29 @@ class Engine:
         
     def forward(self):
         print('\tFORWARD')
-        self.rightMotor.clockwise()
-        self.leftMotor.clockwise()
+        self.leftMotor.idle()
+        self.rightMotor.idle()
+        time.sleep(1.5)
+        self.rightMotor.anticlock()
+        self.leftMotor.anticlock()
         return
         
     
     def backward(self):
         print('\tBACKWARD')
-        self.rightMotor.anticlock()
-        self.leftMotor.anticlock()
+        self.leftMotor.idle()
+        self.rightMotor.idle()
+        time.sleep(1.5)
+        self.rightMotor.clockwise()
+        self.leftMotor.clockwise()
         return
         
         
     def right(self):
         print('\tRIGHT')
+        self.leftMotor.idle()
+        self.rightMotor.idle()
+        time.sleep(1.5)
         self.rightMotor.anticlock()
         self.leftMotor.clockwise()
         return
@@ -139,6 +145,9 @@ class Engine:
     
     def left(self):
         print('\tLEFT')
+        self.leftMotor.idle()
+        self.rightMotor.idle()
+        time.sleep(1.5)
         self.rightMotor.clockwise()
         self.leftMotor.anticlock()
         return
@@ -146,13 +155,18 @@ class Engine:
     
     def up(self):
         print('\tUP')
+        self.propellorMotor.idle()
+        time.sleep(1.5)
         self.propellorMotor.clockwise()
         return
     
     
     def down(self):
         print('\tDOWN')
+        self.propellorMotor.idle()
+        time.sleep(1.5)
         self.propellorMotor.anticlock()
+    
     
     def getDataAsDict(self):
         d = {
