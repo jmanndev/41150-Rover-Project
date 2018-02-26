@@ -297,7 +297,7 @@ class UltraSonic:
         SONIC_GPIO.setup(SONIC_GPIO_TRIGGER, SONIC_GPIO.OUT)
         SONIC_GPIO.setup(SONIC_GPIO_ECHO, SONIC_GPIO.IN)
         
-    def distance():
+    def distance(self):
         # set Trigger to HIGH
         SONIC_GPIO.output(SONIC_GPIO_TRIGGER, True)
 
@@ -325,6 +325,6 @@ class UltraSonic:
     
     def getDataAsDict(self):
         d = {
-            "distance" : str(distance())
+            "distance" : self.distance()
         }
         return d

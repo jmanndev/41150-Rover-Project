@@ -6,7 +6,7 @@ import sys
 import json
 import sqlite3
 
-DATABASE_ENABLED = True    
+DATABASE_ENABLED = False    
 
     
 # Create a TCP/IP socket
