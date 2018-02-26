@@ -13,6 +13,7 @@ server_address = (server_name, 31415)
 
 engine = Rover.Engine()
 phil = Rover.Sensor()
+sonic = Rover.UltraSonic()
 
 
 def sendToServer(message):
@@ -36,6 +37,7 @@ def run():
         
         d.update(phil.getDataAsDict().copy())
         d.update(engine.getDataAsDict())
+        d.update(sonic.getDataAsDict())
         dataDict = d.copy()
         sendToServer(json.dumps(dataDict) + '☢')
         

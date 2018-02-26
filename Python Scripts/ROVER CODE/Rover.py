@@ -4,6 +4,7 @@ import logging
 import sys
 import time                             
 import os
+import RPi.GPIO as SONIC_GPIO
 
 os.system ("sudo pigpiod")
 time.sleep(2) #Need sleep to allow PiGPIO to load properly before import
@@ -13,6 +14,10 @@ import pigpio
 
 RIGHT_MOTOR_GPIO = 18
 LEFT_MOTOR_GPIO = 17
+
+
+SONIC_GPIO_TRIGGER = 23
+SONIC_GPIO_ECHO = 24
 
 
 #  __  __       _             
@@ -273,5 +278,53 @@ class Sensor:
             "roll" : self.roll,
             "pitch" : self.pitch,
             "tempC" : self.temp_c
+        }
+        return d
+    
+
+
+#  _    _ _ _              _____             _      
+# | |  | | | |            / ____|           (_)     
+# | |  | | | |_ _ __ __ _| (___   ___  _ __  _  ___ 
+# | |  | | | __| '__/ _` |\___ \ / _ \| '_ \| |/ __|
+# | |__| | | |_| | | (_| |____) | (_) | | | | | (__ 
+#  \____/|_|\__|_|  \__,_|_____/ \___/|_| |_|_|\___|
+
+class UltraSonic:
+    def __init__(self):
+        SONIC_GPIO.setmode(SONIC_GPIO.BCM)
+        #set GPIO direction (IN / OUT)
+        SONIC_GPIO.setup(SONIC_GPIO_TRIGGER, SONIC_GPIO.OUT)
+        SONIC_GPIO.setup(SONIC_GPIO_ECHO, SONIC_GPIO.IN)
+        
+    def distance():
+        # set Trigger to HIGH
+        SONIC_GPIO.output(SONIC_GPIO_TRIGGER, True)
+
+        # set Trigger after 0.01ms to LOW
+        time.sleep(0.00001)
+        SONIC_GPIO.output(SONIC_GPIO_TRIGGER, False)
+
+        StartTime = time.time()
+        StopTime = time.time()
+
+        # save StartTime
+        while SONIC_GPIO.input(SONIC_GPIO_ECHO) == 0:
+            StartTime = time.time()
+
+        # save time of arrival
+        while SONIC_GPIO.input(SONIC_GPIO_ECHO) == 1:
+            StopTime = time.time()
+
+        # time difference between start and arrival
+        TimeElapsed = StopTime - StartTime
+        # multiply with the sonic speed (34300 cm/s)
+        # and divide by 2, because there and back
+        distance = (TimeElapsed * 34300) / 2
+        return distance
+    
+    def getDataAsDict(self):
+        d = {
+            "distance" : str(distance())
         }
         return d

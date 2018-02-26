@@ -28,8 +28,8 @@ def saveDataToSQL(message, curs):
     data = json.loads(message)
     print("save: " + message)
     
-    format_str = """INSERT INTO roverapp_datareceived (sendTime, heading, roll, pitch, tempC, leftState, rightState) VALUES ("{sendTime}", "{heading}", "{roll}", "{pitch}", "{tempC}", "{leftState}", "{rightState}");"""
-    sql_command = format_str.format(sendTime=data["time"], heading=data["heading"], roll=data["roll"], pitch=data["pitch"], tempC=data["tempC"], leftState=data["left"], rightState=data["right"])
+    format_str = """INSERT INTO roverapp_datareceived (sendTime, heading, roll, pitch, tempC, leftState, rightState, distance) VALUES ("{sendTime}", "{heading}", "{roll}", "{pitch}", "{tempC}", "{leftState}", "{rightState}", "{distance}");"""
+    sql_command = format_str.format(sendTime=data["time"], heading=data["heading"], roll=data["roll"], pitch=data["pitch"], tempC=data["tempC"], leftState=data["left"], rightState=data["right"], distance=data["distance"])
     
     curs.execute(sql_command)
     sqlconnection.commit()  # do not delete this line
