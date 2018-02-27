@@ -19,8 +19,8 @@ Files on ROVER are in: \ROVER_project\
 Confirm Django settings.py contains AP IP as an ALLOWED HOST
 1. `sudo motion` on ROVER
 1. `sudo pigpiod` on ROVER
-1. `python server_ap.py 123.1.1.1` on AP with AP IP as argument
 1. `python server_rover.py 10.0.0.2` on ROVER with ROVER IP as argument
+1. `python server_ap.py 123.1.1.1` on AP with AP IP as argument
 1. `source venv/bin/activate` on AP from projects/django-rpi
 1. `python manage.py runserver 123.1.1.1:8000` on AP with AP IP as argument with port 8000
 1. Launch `http://123.1.1.1:8000` in internet browser on a laptop
