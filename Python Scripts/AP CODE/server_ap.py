@@ -14,6 +14,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_name = sys.argv[1]
 server_address = (server_name, 31415)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(server_address)
 
 # Connecetion to DB

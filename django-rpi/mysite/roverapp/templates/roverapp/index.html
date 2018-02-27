@@ -79,15 +79,18 @@
 
                     <div>
                         <center>
-                            <button type="button" class="control-box">Forward</button>
+                            <button type="button" class="control-box" href="{% url 'forward'%}">Forward</button>
 
                             <br/>
-                            <button type="button" class="control-box">Left</button>
-                            <button type="button" class="control-box">Up</button>
-                            <button type="button" class="control-box">Right</button>
+                            <button type="button" class="control-box" href="{% url 'left'%}">Left</button>
+                            <button type="button" class="control-box" href="{% url 'backward'%}">Backward</button>
+                            <button type="button" class="control-box" href="{% url 'right'%}">Right</button>
+                            <br/>
+                            <button type="button" class="control-box" href="{% url 'up'%}">Up</button>
+                            <button type="button" class="control-box" href="{% url 'down'%}">Down</button>
                             <br/>
 
-                            <button type="button" class="stop-box">○ STOP ○</button>
+                            <button type="button" class="stop-box" href="{% url 'idle'%}">○ STOP ○</button>
 
 
                         </center>
