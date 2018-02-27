@@ -1,0 +1,19 @@
+Put directions.py in same roverapp folder (same folder as views.py)
+
+index.html
+<a class="btn btn-primary" href="{% url 'forward'%}">Forward</a>
+
+urls.py
+url('/commandforward', views.forward, name='forward'),
+
+views.py
+from django.http import HttpResponseRedirect
+from .directions import forward
+def forward(request):
+    forward()
+    return HttpResponseRedirect('/')
+
+directions.py
+def forward():
+	doSomething()
+	return
