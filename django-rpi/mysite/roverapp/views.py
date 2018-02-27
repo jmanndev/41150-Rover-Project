@@ -50,5 +50,3 @@ def cdown(request):
     down()
     return HttpResponseRedirect('/')
 
-
-    

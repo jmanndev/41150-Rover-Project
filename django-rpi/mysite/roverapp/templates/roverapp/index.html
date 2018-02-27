@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div id="container">
-                        <iframe id="cameraBox" src="http://172.19.15.224:8081" frameborder="2"></iframe>
+                    <!--<iframe id="cameraBox" src="http://172.19.15.224:8081" frameborder="2"></iframe>-->
                         <!-- <div class="snap-box">
 <a href="#" id="snap-btn" class="btn btn-success">Take a Snapshot!</a>
 </div> -->
@@ -79,18 +79,17 @@
 
                     <div>
                         <center>
-                            <button type="button" class="control-box" href="{% url 'forward'%}">Forward</button>
+                            <a class="btn btn-primary" href="{% url 'forward'%}">Forward</a>
+                            <br/>
+                            <a class="btn btn-primary" href="{% url 'left'%}">Left</a>
+                            <a class="btn btn-primary" href="{% url 'backward'%}">Backward</a>
+                            <a class="btn btn-primary" href="{% url 'right'%}">Right</a>
+                            <br/>
+                            <a class="btn btn-primary" href="{% url 'up'%}">Up</a>
+                            <a class="btn btn-primary" href="{% url 'down'%}">Down</a>
+                            <br/>
 
-                            <br/>
-                            <button type="button" class="control-box" href="{% url 'left'%}">Left</button>
-                            <button type="button" class="control-box" href="{% url 'backward'%}">Backward</button>
-                            <button type="button" class="control-box" href="{% url 'right'%}">Right</button>
-                            <br/>
-                            <button type="button" class="control-box" href="{% url 'up'%}">Up</button>
-                            <button type="button" class="control-box" href="{% url 'down'%}">Down</button>
-                            <br/>
-
-                            <button type="button" class="stop-box" href="{% url 'idle'%}">○ STOP ○</button>
+                            <a class="btn btn-primary" href="{% url 'idle'%}">○ STOP ○</a>
 
 
                         </center>

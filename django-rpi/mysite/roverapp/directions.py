@@ -4,6 +4,7 @@
 
 import socket
 import sys
+import time
 
 # Create a TCP/IP socket
 server_name = '192.168.1.216' #sys.argv[1]
@@ -22,32 +23,42 @@ def sendToServer(message):
     
 def forward():
     sendToServer('FORWARD')
+    time.sleep(1)
+    return
     
 def backward():
     sendToServer('BACKWARD')
+    time.sleep(1)
+    return
 
     
 def left():
     sendToServer('LEFT')
+    return
     
     
 def right():
     sendToServer('RIGHT')
+    return
     
     
 def idle():
     sendToServer('IDLE')
+    return
     
     
 def up():
     sendToServer('UP')
+    return
     
     
 def down():
     sendToServer('DOWN')
+    return
     
     
 def off():
     sendToServer('OFF')
+    return
 
     
