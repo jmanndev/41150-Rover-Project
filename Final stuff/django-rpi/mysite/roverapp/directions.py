@@ -7,7 +7,7 @@ import sys
 import time
 
 # Create a TCP/IP socket
-server_name = '192.168.1.216' #sys.argv[1]
+server_name = '172.19.114.65' #sys.argv[1]
 server_address = (server_name, 31417)
 
 def sendToServer(message):
