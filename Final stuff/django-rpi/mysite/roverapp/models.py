@@ -15,3 +15,5 @@ class DataReceived(models.Model):
   rightState = models.CharField(max_length=200)
   propellorState = models.CharField(max_length=200)
   distance = models.CharField(max_length=200)
+  def __str__(self):
+    return '%s | %sC | Dist:%s | Heading:%s' % (self.sendTime, self.tempC, self.distance, self.heading)
