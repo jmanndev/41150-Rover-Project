@@ -10,8 +10,8 @@ import pigpio
 
 
 RIGHT_MOTOR_GPIO = 13
-LEFT_MOTOR_GPIO = 21
-PROPELLOR_MOTOR_GPIO = 5
+LEFT_MOTOR_GPIO = 5
+PROPELLOR_MOTOR_GPIO = 21
 
 
 SONIC_GPIO_TRIGGER = 23
@@ -117,7 +117,7 @@ class Engine:
         print('\tFORWARD')
         self.leftMotor.idle()
         self.rightMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.rightMotor.anticlock()
         self.leftMotor.anticlock()
         return
@@ -127,7 +127,7 @@ class Engine:
         print('\tBACKWARD')
         self.leftMotor.idle()
         self.rightMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.rightMotor.clockwise()
         self.leftMotor.clockwise()
         return
@@ -137,7 +137,7 @@ class Engine:
         print('\tRIGHT')
         self.leftMotor.idle()
         self.rightMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.rightMotor.anticlock()
         self.leftMotor.clockwise()
         return
@@ -147,7 +147,7 @@ class Engine:
         print('\tLEFT')
         self.leftMotor.idle()
         self.rightMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.rightMotor.clockwise()
         self.leftMotor.anticlock()
         return
@@ -156,7 +156,7 @@ class Engine:
     def up(self):
         print('\tUP')
         self.propellorMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.propellorMotor.clockwise()
         return
     
@@ -164,7 +164,7 @@ class Engine:
     def down(self):
         print('\tDOWN')
         self.propellorMotor.idle()
-        time.sleep(1.5)
+        time.sleep(3)
         self.propellorMotor.anticlock()
     
     
